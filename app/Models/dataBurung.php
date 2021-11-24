@@ -12,4 +12,8 @@ class dataBurung extends Model
     protected $guarded = [
         'id'
     ];
+
+    public function datapeternak() {
+        return $this->belongsTo(dataPeternak::class,'id_peternak');
+    }
 }

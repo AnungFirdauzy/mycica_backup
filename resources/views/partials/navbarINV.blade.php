@@ -7,10 +7,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Investasi</a>
+                <a class="nav-link active" aria-current="page" href="/katalog/investasi/inv/{{ $dash_data['email'] }}">Investasi</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Katalog</a>
+                <a class="nav-link active" aria-current="page" href="/katalog/detailBurung/{{ $dash_data['email'] }}">Katalog</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#">Pemberitahuan</a>

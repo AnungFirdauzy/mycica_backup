@@ -147,9 +147,10 @@
                     
                     {{-- <button type="submit" class="btn btn-primary">Daftar</button> --}}
                     <!-- Button trigger modal -->
-                    <button type="button" style="width: 100px" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button class="btn btn-outline-dark">Daftar</button>
+                    {{-- <button type="button" style="width: 100px" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Daftar
-                    </button>
+                    </button> --}}
                     
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -160,7 +161,7 @@
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Tidak</button>
-                            <button type="submit" class="btn btn-dark">Ya</button>
+                            <button type="submit" class="btn btn-dark" data-bs-dismiss="modal">Ya</button>
                             </div>
                         </div>
                         </div>

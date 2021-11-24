@@ -16,8 +16,8 @@ class registerPET extends Controller
         $register_data=$req->validate([
             'company'       => 'required|max:255',
             'ownername'     => 'required|max:255',
-            'nik'           => 'required|numeric',
-            'npwp'          => 'required|max:255',
+            'nik'           => 'required|numeric|unique:data_peternaks,nik',
+            'npwp'          => 'required|max:255|unique:data_peternaks,npwp',
             'phone'         => 'required|numeric',
             'email'         => 'required|email',
             'password'      => 'required|max:255',

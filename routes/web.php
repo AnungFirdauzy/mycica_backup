@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\KatalogController;
 use App\Http\Controllers\form_editProfilINV;
 use App\Http\Controllers\form_editProfilPET;
+use App\Http\Controllers\InvestasiController;
 use App\Http\Controllers\form_editDataKatalog;
 use App\Http\Controllers\form_tambahDataKatalog;
 
@@ -51,6 +52,7 @@ Route::post('/profil/peternak/edit/{code}',[form_editProfilPET::class,'simpan'])
 
 Route::get('/katalog/peternak/{hash}',[KatalogController::class,'getData']);
 
+//Burung
 Route::get('/katalog/tambah/{hash}',[form_tambahDataKatalog::class,'index']);
 Route::post('/katalog/tambah/{hash}',[form_tambahDataKatalog::class,'simpan']);
 
@@ -58,3 +60,24 @@ Route::get('/katalog/profil/{hash}',[form_editDataKatalog::class,'index']);
 
 Route::get('/katalog/edit/{hash}',[form_editDataKatalog::class,'edit']);
 Route::post('/katalog/edit/{hash}',[form_editDataKatalog::class,'simpan']);
+
+Route::get('/katalog/detailBurung/{email}',[InvestasiController::class,'openkatalog']);
+
+// Investasi (Investor)
+Route::get('/katalog/profil/{hash}/{dash_data}',[InvestasiController::class,'view']);
+Route::get('/katalog/investasi/inv/{email}',[InvestasiController::class,'view_katalog']);
+Route::get('/investasi/{id_burung}/{emailinvestor}',[InvestasiController::class,'investasi']);
+Route::get('/tagihan/{emailinvestor}/{idburung}',[InvestasiController::class,'view_tagihan']);
+Route::get('/paid/{hash}/{email}',[InvestasiController::class,'paid']);
+Route::get('/detail/investasi/{hash}',[InvestasiController::class,'detail']);
+
+// Investasi (peternak)
+Route::get('/katalog/investasi/pet/{email}',[InvestasiController::class,'view_katalog_pet']);
+
+// MOU
+Route::post('/mou/{dash_data}',[InvestasiController::class,'simpan_mou']);
+
+
+
+
+

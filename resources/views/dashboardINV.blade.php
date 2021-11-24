@@ -52,20 +52,53 @@
                 <div class="col">
                     <div class="card bg-dark shadow p-3" style="width: 650px;height: 725px">
                         <h3 class="card-title">Investasi Saya :</h3>
-                        <div class="card-body"></div>
+                        <div class="card-body overflow-auto">
+                            @foreach ($burungINV as $burungINV)
+                                <a href="/detail/investasi/{{ $burungINV->id_burungs }}" style="text-decoration: none;color:white"><div class="row mb-3 shadow">
+                                    <div class="col-3"><img src="{{ URL::asset("Images/dummy-pict.jpg") }}" alt="" style="width: 100px"></div>
+                                    <div class="col text-start"><h4 class="h4">{{ $burungINV->nama_burung }}</h4></div>
+                                    <div class="col text-end"><h4 class="h4">{{ $burungINV->tgl_jatuhTempo }}</h4></div>
+                                </div>
+                                </a>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
                 <div class="col">
                     <div class="card bg-dark shadow p-3" style="width: 650px;height: 725px">
                         <h3 class="card-title">Katalog Peternak :</h3>
+                        <div class="card-body overflow-auto">
+                            @foreach ($burung as $burung)
+                                <a href="/katalog/profil/{{ $burung['nama_burung'] }}/{{ $dash_data['email'] }}" style="text-decoration: none;color:white"><div class="row mb-3 shadow">
+                                    <div class="col-3"><img src="{{ URL::asset("Images/dummy-pict.jpg") }}" alt="" style="width: 100px"></div>
+                                    <div class="col text-start"><h4 class="h4">{{ $burung['nama_burung'] }}</h4></div>
+                                    <div class="col text-end"><h4 class="h4">{{ $burung['tanggal_max_investasi'] }}</h4></div>
+                                </div>
+                                </a>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
                 <div class="col">
                     <div class="card bg-dark shadow p-3" style="width: 444px;height: 725px">
                         <h3 class="card-title">Pemberitahuan Saya :</h3>
-                        <div class="alert alert-success alert-dismissible mf-auto fade show" id="popup" role="alert" style="width: 400px;">
-                            <strong>Selamat</strong>, Anda berhasil login.
-                            <button type="button" id="close" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <div class="card-body overflow-auto">
+                            <div class="row">
+                                <div class="alert alert-success alert-dismissible mf-auto fade show" id="popup" role="alert" style="width: 400px;">
+                                    <strong>Selamat</strong>, Anda berhasil login.
+                                    <button type="button" id="close" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            </div>
+                            @foreach ($notiftagihan as $tagihan)
+                                <div class="row">
+                                    <div class="alert alert-danger alert-dismissible mf-auto fade show" id="popup" role="alert" style="width: 400px;">
+                                        <p>Anda memiliki tagihan untuk {{ $tagihan->nama_burung }} </p>
+                                        <hr>
+                                        <a href="/tagihan/{{ $dash_data['email'] }}/{{ $tagihan->id_burungs }}" class="btn btn-primary">Lihat Tagihan</a>
+                                        <button type="button" id="close" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
