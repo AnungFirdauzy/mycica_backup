@@ -3,6 +3,7 @@
 @section('konten')
     <div class="container-fluid text-center bg-dark h-100 text-light p-3">
         <h1 class="h1">Daftar Investasi Anda</h1>
+        <a href="" class="btn btn-secondary">Permintaan Verifikasi</a>
         <div class="container-fluid pt-5">
             <div class="row row-cols-5">
                 @foreach ($katalog as $ktlg)

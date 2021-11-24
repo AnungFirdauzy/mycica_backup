@@ -168,7 +168,7 @@ class InvestasiController extends Controller
         $katalogInvestasi = DB::table('data_riwayat_transaksi_bulanans')
                             ->join('data_investasis','data_riwayat_transaksi_bulanans.id_investasi','data_investasis.id')
                             ->join('data_burungs','data_investasis.id_burungs','data_burungs.id')
-                            ->select('data_investasis.id','data_investasis.tgl_investasi','data_investasis.tgl_jatuhTempo','data_burungs.nama_burung','data_burungs.jenis_kelamin','data_riwayat_transaksi_bulanans.riwayat_transaksi')
+                            ->select('data_investasis.id','data_investasis.id_burungs','data_investasis.tgl_investasi','data_investasis.tgl_jatuhTempo','data_burungs.nama_burung','data_burungs.jenis_kelamin','data_riwayat_transaksi_bulanans.riwayat_transaksi')
                             ->get();
 
         return view('katalogInvestasi',['dash_data'=>$key,'katalog'=>$katalogInvestasi]);
@@ -200,8 +200,7 @@ class InvestasiController extends Controller
                 ->get();
         foreach ($detail as $detail) {
         }
-        
-        return view('detailBurungInvestasi',['data'=>$detail]);
+        return view('detailBurungInvestasi',['data'=>$detail,'']);
     }
 
     public function openkatalog($email){
