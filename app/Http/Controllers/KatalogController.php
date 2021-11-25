@@ -13,7 +13,7 @@ class KatalogController extends Controller
         $ownerdata = dataPeternak::where('email',$hash)->get();
         foreach ($ownerdata as $ownerdata) {
         }
-        $burung = dataBurung::where('id_peternak',$ownerdata['id'])->get();
+        $burung = dataBurung::where('id_peternak',$ownerdata['id'])->where('status','tersedia')->get();
         return view('katalogPET',['burung' => $burung,'dash_data' => $ownerdata]);
     }
 

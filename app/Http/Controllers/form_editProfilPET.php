@@ -41,6 +41,7 @@ class form_editProfilPET extends Controller
         // $data_keep=dataInvestor::where('password',$hash_code)->get();
         // foreach ($data_keep as $data_profil) {
         // }
-        return view('dashboardPET',['dash_data' => $key]);
+        $dashboard= new DashController;
+        return $dashboard->view($key['email'],'peternak');
         }
 }

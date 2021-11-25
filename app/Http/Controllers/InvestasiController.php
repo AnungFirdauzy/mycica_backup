@@ -226,4 +226,74 @@ class InvestasiController extends Controller
 
         return view('katalogInvestasiPET',['dash_data' => $dash_data,'katalog'=>$katalogInvestasi]);
     }
+
+    public function view_detail_burung_pet($id,$email){
+        $dash_data=dataPeternak::where('email',$email)->get();
+        foreach ($dash_data as $key) {
+            # code...
+        }
+        foreach ($dash_data as $investor) {
+            # code...
+        }
+        $burung=dataBurung::where('id',$id)->get();
+        foreach ($burung as $burung) {
+            # code...
+        }
+        $data_transaksi = DB::table('data_riwayat_transaksi_bulanans')
+                            ->join('data_investasis','data_riwayat_transaksi_bulanans.id_investasi','data_investasis.id')
+                            ->select('data_riwayat_transaksi_bulanans.riwayat_transaksi')
+                            ->where('data_investasis.id_burungs','=',$id)
+                            ->get();
+        foreach ($data_transaksi as $data_transaksi) {
+            # code...
+        }
+        return view('profilInvestasiBurung',['dash_data'=>$key,'owner'=>$investor,'burung'=>$burung,'riwayat_transaksi'=>$data_transaksi->riwayat_transaksi]);
+
+    }
+
+    public function view_konfirmasi_pembayaran($nama_burung) {
+        $data1= dataBurung::where('nama_burung',$nama_burung)->get();
+        foreach ($data1 as $data1) {
+            # code...
+        }
+        $data2 = dataInvestasi::where('id_burungs',$data1['id'])->get();
+        foreach ($data2 as $data2) {
+            # code...
+        }
+        $data3 = dataInvestor::where('id',$data2['id_investor'])->get();
+        foreach ($data3 as $data3) {
+            
+        }
+        $data4 = dataDetailInvestor::where('id_investor', $data3['id'])->get();
+        foreach ($data4 as $data4) {
+            # code...
+        }
+        $data5 = dataRiwayatTransaksiBulanan::where('id_investasi',$data2['id'])->where('riwayat_transaksi','Menunggu verifikasi')->get();
+        foreach ($data5 as $data5) {
+            # code...
+        }
+        return view('verifikasiTagihanBiayaBulanan',['dash_data'=>$data3,'burung'=>$data1,'investasi'=>$data2,'detailInvestor'=>$data4,'riwayat'=>$data5]);
+    }
+
+    public function verifikasiPembayaran($id,$dash,$biaya) {
+        $data = dataRiwayatTransaksiBulanan::find($id);
+        $data->riwayat_transaksi = 'Lunas';
+        $data->biaya_tambahan = $biaya;
+        $data->save();
+
+        $getData = dataInvestasi::where('id',$data->id_investasi)->get();
+        foreach ($getData as $getData) {
+            # code...
+        }
+
+        $current = Carbon::createFromFormat('Y-m-d', $getData['tgl_jatuhTempo']);
+        $jatuhTempo = date('Y-m-d', strtotime($current . " + 1 month"));
+
+        $data2 = dataInvestasi::find($getData['id']);
+        $data2->tgl_jatuhTempo = $jatuhTempo;
+        $data2->save();
+
+        ddd("success");
+
+    }
 }

@@ -73,6 +73,11 @@ Route::get('/detail/investasi/{hash}',[InvestasiController::class,'detail']);
 
 // Investasi (peternak)
 Route::get('/katalog/investasi/pet/{email}',[InvestasiController::class,'view_katalog_pet']);
+Route::get('/katalog/investasi/pet/detail/{id}/{email}',[InvestasiController::class,'view_detail_burung_pet']);
+Route::get('/katalog/investasi/pet/detail/{id}/{email}',[InvestasiController::class,'view_detail_burung_pet']);
+Route::get('/konfirmasi/pembayaran/{burung}',[InvestasiController::class,'view_konfirmasi_pembayaran']);
+Route::get('/konfirmasi/pet/{id}/{dash}/{tambahan}',[InvestasiController::class,'verifikasiPembayaran']);
+
 
 // MOU
 Route::post('/mou/{dash_data}',[InvestasiController::class,'simpan_mou']);
