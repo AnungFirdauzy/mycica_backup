@@ -50,7 +50,7 @@
                                 <label for="floatingInput">Riwayat Medis</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="floatingInput" value="" readonly>
+                                <input type="text" class="form-control" id="floatingInput" value="{{ $burung->jadwal_perawatan }}" readonly>
                                 <label for="floatingInput">Jadwal Perawatan</label>
                             </div>
                         </form>
@@ -73,7 +73,10 @@
                                     </tr>
                                     <tr>
                                         <td>Biaya Tambahan</td>
-                                        <td>Rp 0,-</td>
+                                        <td>Rp {{ $burung->biaya_tambahan/1000 }}@if ($burung->biaya_tambahan/1000==0)
+                                            @else.000,-
+                                            @endif
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td><strong>Total pembayaran</strong></td>

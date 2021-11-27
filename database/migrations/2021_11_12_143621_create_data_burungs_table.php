@@ -24,6 +24,7 @@ class CreateDataBurungsTable extends Migration
             $table->text('riwayat_medis')->nullable();
             $table->string('foto_burung')->nullable();
             $table->string('biaya_tambahan')->nullable();
+            $table->string('jadwal_perawatan')->nullable();
             $table->string('status');
             $table->timestamps();
         });

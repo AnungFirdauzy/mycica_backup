@@ -6,19 +6,20 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <h2><a href="/dashboard/{{ $dash_data['email'] }}/investor"><i class="bi bi-arrow-left-square" style="color:white;margin-right:10px"></a></i>Datail Burung</h2>
+                    <h2><a href="/dashboard/{{ $dash_data['email'] }}/peternak"><i class="bi bi-arrow-left-square" style="color:white;margin-right:10px"></a></i>Datail Burung</h2>
                 </div>
             </div>
             <div class="row">
                 <div class="col text-center">
                     <div class="container shadow-lg p-3">
                         <img src="{{ URL::asset("/Images/dummy-pict.jpg") }}" class="border p-1 d-block" alt="" style="width: 300px; margin:auto">
-                        <p class="fs-3">{{ $owner['ownername'] }}</p>
+                        <p class="fs-3">{{ $investor['nama'] }}</p>
                         <div class="container p-1">
+                            <a href="/investasis/perbarui/{{ $burung['nama_burung'] }}" class="btn btn-outline-primary me-2">Perbarui Informasi</a>
                             @if ($riwayat_transaksi=="Menunggu verifikasi")
                                 <a href="/konfirmasi/pembayaran/{{ $burung['nama_burung'] }}" class="btn btn-success">Konfirmasi Pembayaran</a>
                             @else 
-                            <a href="" class="btn btn-outline-secondary disabled" tabindex="-1" role="button" aria-disabled="true">Komfirmasi Pembayaran</a>
+                                <a href="" class="btn btn-outline-secondary disabled" tabindex="-1" role="button" aria-disabled="true">Belum ada pembayaran</a>
                             @endif
                             
                         </div>
@@ -56,8 +57,13 @@
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <input type="text" name="biaya_tambahan" class="form-control" id="floatingInput" value="{{ $burung['riwayat_medis'] }}" readonly>
+                                    <input type="text" name="biaya_tambahan" class="form-control" id="floatingInput" value="{{ $burung['biaya_tambahan'] }}" readonly>
                                     <label for="floatingInput">Biaya Tambahan Perawatan</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" name="biaya_tambahan" class="form-control" id="floatingInput" value="{{ $burung['jadwal_perawatan'] }}" readonly>
+                                    <label for="floatingInput">Jadwal Perawatan</label>
                                 </div>
                                 
                                 <div class="form-floating mb-3">

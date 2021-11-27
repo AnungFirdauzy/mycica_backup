@@ -65,6 +65,9 @@
                     @enderror
                     </div>
 
+                    <input type="hidden" name="biaya_tambahan" value="0">
+                    <input type="hidden" name="jadwal_perawatan" value="Belum ditambahkan">
+
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Tambahkan Gambar</label>
                         <input class="form-control" type="file" id="formFile">

@@ -50,6 +50,7 @@ class form_editProfilINV extends Controller
         // $data_keep=dataInvestor::where('password',$hash_code)->get();
         // foreach ($data_keep as $data_profil) {
         // }
-        return view('dashboardINV',['dash_data' => $key]);
+        $dash= new DashController;
+        return $dash->view($hash_code,'investor');
     }
 }

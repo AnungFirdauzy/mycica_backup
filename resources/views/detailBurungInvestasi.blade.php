@@ -27,7 +27,7 @@
                 <div class="col">
                     <div class="container">
                         <div class="container shadow-lg p-5">
-                            <h5><strong>Detail Burung</strong></h5>
+                            <h5><strong>Detail Burung</strong></h5><small>Terakhir diperbarui {{ $data->updated_at }}</small>
                             <form class="container-flex text-dark" action="">
 
                                 <div class="form-floating mb-3">
@@ -56,16 +56,16 @@
                                 </div>
                                 
                                 <div class="form-floating mb-3">
-                                    <input type="text" name="jadwal_perawatan" class="form-control" id="floatingInput" value="" readonly>
+                                    <input type="text" name="jadwal_perawatan" class="form-control" id="floatingInput" value="{{ $data->jadwal_perawatan }}" readonly>
                                     <label for="floatingInput">Jadwal Perawatan</label>
                                 </div>
 
-                                @if (0===0)
-                                    <div class="form-floating mb-3">
-                                        <input type="text" name="biaya_perawatan_tambahan" class="form-control" id="floatingInput" value="" readonly>
-                                        <label for="floatingInput">Biaya Perawatan Tambahan</label>
-                                    </div>
-                                @endif
+                                
+                                <div class="form-floating mb-3">
+                                    <input type="text" name="biaya_perawatan_tambahan" class="form-control" id="floatingInput" value="{{ $data->biaya_tambahan }}" readonly>
+                                    <label for="floatingInput">Biaya Perawatan Tambahan</label>
+                                </div>
+                            
 
                             </form>
                         </div>

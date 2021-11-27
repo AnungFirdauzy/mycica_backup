@@ -26,7 +26,7 @@ class form_tambahDataKatalog extends Controller
     }
 
     public function simpan($id,Request $req){
-
+        
         $raw_data = $req -> validate([
             'id_peternak'           => 'required',
             'nama_burung'           => 'required|max:255|unique:data_burungs',
@@ -36,6 +36,8 @@ class form_tambahDataKatalog extends Controller
             'berat'                 => 'required|numeric',
             'riwayat_medis'         => 'nullable',
             'foto_burung'           => 'nullable',
+            'biaya_tambahan'        => 'nullable',
+            'jadwal_perawatan'      => 'nullable',
             'status'                => 'required',
         ]);
 

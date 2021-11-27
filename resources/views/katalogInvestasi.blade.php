@@ -17,6 +17,11 @@
                                     @else
                                         <span class="badge bg-success">Tidak ada tagihan</span>
                                     @endif
+                                    @if ($ktlg->status_transaksi=='Menunggu terjual')
+                                        <span class="badge bg-secondary">Menunggu Terjual</span>
+                                    @elseif($ktlg->status_transaksi=='Terjual')
+                                        <span class="badge bg-success">Terjual</span>
+                                    @endif
                                     <h5 class="h5">{{ $ktlg->nama_burung }}</h5>
                                     <div class="container">
                                         <div class="row">

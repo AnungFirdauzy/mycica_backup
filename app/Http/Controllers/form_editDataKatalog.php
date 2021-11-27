@@ -22,7 +22,7 @@ class form_editDataKatalog extends Controller
 
     public function edit($hash) {
         $date = new Carbon('2016-01-23');
-        $burungs = dataBurung::where('nama_burung',$hash)->get();
+        $burungs = dataBurung::where('id',$hash)->get();
         foreach ($burungs as $burung) {
         }
         $data_pet = dataPeternak::where('id',$burung['id_peternak'])->get();
@@ -49,16 +49,27 @@ class form_editDataKatalog extends Controller
         $raw_data['tanggal_max_investasi'] = $tanggal;
 
         DB::table('data_burungs')
-            ->where('nama_burung', $hash)
-            ->update(['nama_burung' => $raw_data['nama_burung'], 
-            'tanggal_menetas' => $raw_data['tanggal_menetas'],
-            'tanggal_max_investasi' => $raw_data['tanggal_max_investasi'],
-            'jenis_kelamin' => $raw_data['jenis_kelamin'],
-            'berat' => $raw_data['berat'],
-            'riwayat_medis' => $raw_data['riwayat_medis'],
-            'status' => $raw_data['status']
+            ->where('id', $hash)
+            ->update(['nama_burung'         => $raw_data['nama_burung'], 
+            'tanggal_menetas'               => $raw_data['tanggal_menetas'],
+            'tanggal_max_investasi'         => $raw_data['tanggal_max_investasi'],
+            'jenis_kelamin'                 => $raw_data['jenis_kelamin'],
+            'berat'                         => $raw_data['berat'],
+            'riwayat_medis'                 => $raw_data['riwayat_medis'],
+            'status'                        => $raw_data['status']
             ]);
+        
+        $idPeternak = dataBurung::where('id',$hash)->get();
+        foreach ($idPeternak as $idPeternak) {
+            # code...
+        }
 
-        return $this->index($hash);
+        $peternak = dataPeternak::where('id',$idPeternak['id'])->get();
+        foreach ($peternak as $peternak) {
+            # code...
+        }
+
+
+        return $this->index($idPeternak['nama_burung']);
     }
 }

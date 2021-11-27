@@ -19,6 +19,7 @@ class CreateDataPenjualanBurungsTable extends Migration
             $table->date('tgl_terjual');
             $table->string('nama_pembeli');
             $table->string('phone');
+            $table->string('status_penjualan');
             $table->string('harga_jual');
             $table->string('nominal_transfer');
             $table->timestamps();

@@ -52,7 +52,7 @@
                         <select class="form-select" name="gender" aria-label="Default select example">
                             <option value="">Jenis Kelamin</option>
                             <option value="laki-laki">Laki-Laki</option>
-                            <option value="perempuan">Permenpuan</option>
+                            <option value="perempuan">Perempuan</option>
                         </select>
                     </div>
 

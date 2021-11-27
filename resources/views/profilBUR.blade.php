@@ -14,7 +14,7 @@
                     <div class="container shadow-lg p-3">
                         <img src="{{ URL::asset("/Images/dummy-pict.jpg") }}" class="border p-1" alt="" style="width: 300px; margin:20px">
                         <div class="container p-1">
-                            <a href="/katalog/edit/{{ $data_burung['nama_burung'] }}"><button class="btn btn-outline-primary me-1" style="width: 130px">Edit</button></a>
+                            <a href="/katalog/edit/{{ $data_burung['id'] }}"><button class="btn btn-outline-primary me-1" style="width: 130px">Edit</button></a>
                         </div>
                     </div>
                 </div>

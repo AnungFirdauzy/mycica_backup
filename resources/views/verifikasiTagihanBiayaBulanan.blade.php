@@ -77,11 +77,11 @@
                                     </tr>
                                     <tr>
                                         <td>Biaya Tambahan</td>
-                                        <td>Rp {{ $burung['biaya_tambahan'] }}</td>
+                                        <td>Rp {{ $burung['biaya_tambahan']/1000 }}.000,-</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Total pembayaran</strong></td>
-                                        <td><strong>Rp {{ 500000+$burung['biaya_tambahan'] }}</strong></td>
+                                        <td><strong>Rp {{ 500+($burung['biaya_tambahan'])/1000 }}.000,-</strong></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -90,7 +90,7 @@
                     <div class="col px-5">
                         <div class="container-fluid text-center border p-3 w-60">
                             <p class="p">Apakah Anda sudah terima pembayaran ini?</p>
-                            <a href="/konfirmasi/pet/{{ $riwayat['id'] }}/{{ $dash_data['email'] }}/{{ $burung['biaya_tambahan'] }}" class="btn btn-primary">Ya, Saya sudah terima pembayaran ini</a>
+                            <a href="/konfirmasi/pet/{{ $riwayat['id'] }}/{{ $dash_data['email'] }}" class="btn btn-primary">Ya, Saya sudah terima pembayaran ini</a>
                         </div>
                     </div>
                 </div>

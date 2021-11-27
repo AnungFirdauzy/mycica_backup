@@ -10,7 +10,10 @@ use App\Http\Controllers\form_editProfilINV;
 use App\Http\Controllers\form_editProfilPET;
 use App\Http\Controllers\InvestasiController;
 use App\Http\Controllers\form_editDataKatalog;
+use App\Http\Controllers\form_perbaruiDataBurungInvestasi;
 use App\Http\Controllers\form_tambahDataKatalog;
+use App\Http\Controllers\PenjualanController;
+use App\Http\Controllers\RiwayatTransaksiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,8 +79,25 @@ Route::get('/katalog/investasi/pet/{email}',[InvestasiController::class,'view_ka
 Route::get('/katalog/investasi/pet/detail/{id}/{email}',[InvestasiController::class,'view_detail_burung_pet']);
 Route::get('/katalog/investasi/pet/detail/{id}/{email}',[InvestasiController::class,'view_detail_burung_pet']);
 Route::get('/konfirmasi/pembayaran/{burung}',[InvestasiController::class,'view_konfirmasi_pembayaran']);
-Route::get('/konfirmasi/pet/{id}/{dash}/{tambahan}',[InvestasiController::class,'verifikasiPembayaran']);
+Route::get('/konfirmasi/pet/{id}/{dash}',[InvestasiController::class,'verifikasiPembayaran']);
 
+Route::get('/investasis/perbarui/{nama_burung}',[form_perbaruiDataBurungInvestasi::class,'view']);
+Route::post('/investasis/perbarui/{nama_burung}',[form_perbaruiDataBurungInvestasi::class,'simpan']);
+
+// Penjualan (investor)
+Route::get('/jual/{email}/{id_transaksi}',[PenjualanController::class,'view_jual']);
+Route::get('/jual/sistemsale/{email}/{id_transaksi}',[PenjualanController::class,'jual_inv']);
+
+// Penjualan (penjual)
+Route::get('/jualpet/{email}/{id_transaksi}',[PenjualanController::class,'form_jual_pet']);
+Route::post('/jualpet/{email}/{id_transaksi}',[PenjualanController::class,'form_jual_pet_terjual']);
+
+// Riwayat Transaksi
+Route::get('/peternak/investorlist/{email}',[RiwayatTransaksiController::class,'view_list_pet']);
+Route::get('/peternak/investorlist/{email}/{id_investasi}',[RiwayatTransaksiController::class,'view_list_detail_pet']);
+
+Route::get('/investor/listburung/{email}',[RiwayatTransaksiController::class,'view_list_inv']);
+Route::get('/investor/listburung/{email}/{id_investasi}',[RiwayatTransaksiController::class,'view_list_detail_inv']);
 
 // MOU
 Route::post('/mou/{dash_data}',[InvestasiController::class,'simpan_mou']);

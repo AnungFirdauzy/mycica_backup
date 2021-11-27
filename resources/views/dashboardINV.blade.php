@@ -20,9 +20,12 @@
                                     <div class="row">
                                         <div class="col">Total biaya yang telah diinvestasikan adalah</div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col"><a href="/investor/listburung/{{ $dash_data['email'] }}" style="text-decoration: None">Lihat riwayat transaksi</a></div>
+                                    </div>
                                 </div>
                                 <div class="col p-1 text-end">
-                                    <h1>Rp 1.200.000</h1>
+                                    <h1>Rp {{ $nominal_invest }},-</h1>
                                 </div>
                             </div>
                         </div>
@@ -41,7 +44,7 @@
                                     </div>
                                 </div>
                                 <div class="col p-1 text-end">
-                                    <h1>Rp 3.000.000</h1>
+                                    <h1>Rp 0</h1>
                                 </div>
                             </div>
                         </div>
@@ -53,14 +56,16 @@
                     <div class="card bg-dark shadow p-3" style="width: 650px;height: 725px">
                         <h3 class="card-title">Investasi Saya :</h3>
                         <div class="card-body overflow-auto">
-                            @foreach ($burungINV as $burungINV)
-                                <a href="/detail/investasi/{{ $burungINV->id_burungs }}" style="text-decoration: none;color:white"><div class="row mb-3 shadow">
-                                    <div class="col-3"><img src="{{ URL::asset("Images/dummy-pict.jpg") }}" alt="" style="width: 100px"></div>
-                                    <div class="col text-start"><h4 class="h4">{{ $burungINV->nama_burung }}</h4></div>
-                                    <div class="col text-end"><h4 class="h4">{{ $burungINV->tgl_jatuhTempo }}</h4></div>
-                                </div>
-                                </a>
-                            @endforeach
+                            @if ($burungINV!='None')
+                                @foreach ($burungINV as $burungINV)
+                                    <a href="/detail/investasi/{{ $burungINV->id_burungs }}" style="text-decoration: none;color:white"><div class="row mb-3 shadow">
+                                        <div class="col-3"><img src="{{ URL::asset("Images/dummy-pict.jpg") }}" alt="" style="width: 100px"></div>
+                                        <div class="col text-start"><h4 class="h4">{{ $burungINV->nama_burung }}</h4></div>
+                                        <div class="col text-end"><h4 class="h4">{{ $burungINV->tgl_jatuhTempo }}</h4></div>
+                                    </div>
+                                    </a>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -95,6 +100,16 @@
                                         <p>Anda memiliki tagihan untuk {{ $tagihan->nama_burung }} </p>
                                         <hr>
                                         <a href="/tagihan/{{ $dash_data['email'] }}/{{ $tagihan->id_burungs }}" class="btn btn-primary">Lihat Tagihan</a>
+                                        <button type="button" id="close" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                </div>
+                            @endforeach
+                            @foreach ($notifjual as $jual)
+                                <div class="row">
+                                    <div class="alert alert-danger alert-dismissible mf-auto fade show" id="popup" role="alert" style="width: 400px;">
+                                        <p>Burung {{ $jual->nama_burung }} mencapai usia maksimal !</p>
+                                        <hr>
+                                        <a href="/jual/{{ $dash_data['email'] }}/{{ $jual->id }}" class="btn btn-primary">Jual Sekarang</a>
                                         <button type="button" id="close" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     </div>
                                 </div>
