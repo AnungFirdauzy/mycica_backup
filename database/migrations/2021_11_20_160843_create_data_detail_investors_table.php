@@ -15,12 +15,16 @@ class CreateDataDetailInvestorsTable extends Migration
     {
         Schema::create('data_detail_investors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_investor');
+            $table->foreignId('id_investor')->unique();
             $table->string('alamat');
             $table->string('rtRw');
             $table->string('kabupatenkota');
             $table->string('kodepos');
             $table->string('ttl');
+            $table->string('rekening');
+            $table->string('ktp'); 
+            $table->string('pasfoto'); 
+            $table->string('persetujuan'); 
             $table->timestamps();
         });
     }

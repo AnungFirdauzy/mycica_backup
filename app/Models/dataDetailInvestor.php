@@ -16,6 +16,10 @@ class dataDetailInvestor extends Model
         'kabupatenkota',
         'kodepos',
         'ttl',
+        'rekening',
+        'ktp',
+        'pasfoto',
+        'persetujuan'
         
     ];
 

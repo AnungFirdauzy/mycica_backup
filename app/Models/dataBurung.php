@@ -9,8 +9,18 @@ class dataBurung extends Model
 {
     use HasFactory;
 
-    protected $guarded = [
-        'id'
+    protected $fillable = [
+        'id_peternak',
+        'nama_burung',
+        'tanggal_menetas',
+        'tanggal_max_investasi',
+        'jenis_kelamin',
+        'berat',
+        'riwayat_medis',
+        'foto_burung',
+        'biaya_tambahan',
+        'jadwal_perawatan',
+        'status'
     ];
 
     public function datapeternak() {

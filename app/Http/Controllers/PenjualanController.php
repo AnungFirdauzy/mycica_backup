@@ -77,4 +77,46 @@ class PenjualanController extends Controller
         $dash = new DashController;
         return $dash->view($email_pet,'peternak');
     }
+    public function konfirmasiPenjualan($email_inv,$id_transaksi) {
+        $dash_data = dataInvestor::where('email',$email_inv)->get();
+        foreach ($dash_data as $dash_data) {
+        }
+        $burung= DB::table('data_investasis')
+                ->join('data_burungs','data_investasis.id_burungs','data_burungs.id')
+                ->select('data_burungs.nama_burung','data_burungs.tanggal_menetas','data_burungs.berat','data_burungs.jenis_kelamin','data_burungs.riwayat_medis','data_burungs.jadwal_perawatan','data_burungs.biaya_tambahan')
+                ->where('data_investasis.id','=',$id_transaksi)
+                ->get();
+        foreach ($burung as $burung) {
+            # code...
+        }
+        $penjualan = DB::table('data_investasis')
+                    ->join('data_penjualan_burungs','data_penjualan_burungs.id_investasi','data_investasis.id')
+                    ->select('data_penjualan_burungs.nama_pembeli','data_penjualan_burungs.tgl_terjual','data_penjualan_burungs.phone','data_penjualan_burungs.harga_jual','data_penjualan_burungs.nominal_transfer')
+                    ->where('data_investasis.id','=',$id_transaksi)
+                    ->get();
+        foreach ($penjualan as $penjualan) {
+        }
+        return view('detailPenjualanINV',['dash_data'=>$dash_data,'investor'=>$dash_data,'burung'=>$burung,'penjualan'=>$penjualan,'id_transaksi'=>$id_transaksi]);
+    }
+
+    public function terima($email_inv,$id_transaksi){
+        $data_investasi = DB::table('data_investasis')
+                        ->join('data_penjualan_burungs','data_penjualan_burungs.id_investasi','data_investasis.id')
+                        ->select('data_penjualan_burungs.id')
+                        ->where('data_investasis.id','=',$id_transaksi)
+                        ->get();
+        foreach ($data_investasi as $data_investasi) {
+            # code...
+        }
+
+        $query = dataPenjualanBurung::find($data_investasi->id);
+        $query->status_penjualan = 'Dikonfirmasi';
+        $query->save();
+
+        $dash_data = dataInvestor::where('email',$email_inv)->get();
+        foreach ($dash_data as $dash_data) {
+        }
+        $dash = new DashController;
+        return $dash->view($email_inv,'investor');
+    }
 }

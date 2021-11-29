@@ -13,7 +13,7 @@
                 <div class="col text-center">
                     <div class="row">
                         <div class="container shadow-lg p-3">
-                            <img src="{{ URL::asset("/Images/dummy-pict.jpg") }}" class="border p-1 d-block" alt="" style="width: 300px; margin:auto">
+                            <img src="{{ asset("storage/".$data->foto_burung) }}" class="border p-1 d-block" alt="" style="width: 300px; margin:auto">
                             <a href="" style="text-decoration: none;color: white"><p>{{ $data->ownername }}</p></a>
                             @if("A"=="A")
                             <div class="container p-1">

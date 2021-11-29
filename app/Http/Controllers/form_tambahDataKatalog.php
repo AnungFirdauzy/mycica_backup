@@ -35,11 +35,15 @@ class form_tambahDataKatalog extends Controller
             'jenis_kelamin'         => 'required',
             'berat'                 => 'required|numeric',
             'riwayat_medis'         => 'nullable',
-            'foto_burung'           => 'nullable',
+            'foto_burung'           => 'required|image|file|max:1024',
             'biaya_tambahan'        => 'nullable',
             'jadwal_perawatan'      => 'nullable',
             'status'                => 'required',
         ]);
+
+        
+        $raw_data['foto_burung']=$req->file('foto_burung')->store('burung-images');
+        
 
         
         $tanggal = $raw_data['tanggal_menetas'];

@@ -1,19 +1,25 @@
 <?php
 
+
+use App\Http\Controllers\registerADM;
 use App\Http\Controllers\registerINV;
 use App\Http\Controllers\registerPET;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashController;
 use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\RiwayatTransaksi;
 use App\Http\Controllers\KatalogController;
 use App\Http\Controllers\form_editProfilINV;
 use App\Http\Controllers\form_editProfilPET;
+use App\Http\Controllers\InvestorController;
+use App\Http\Controllers\PeternakController;
 use App\Http\Controllers\InvestasiController;
-use App\Http\Controllers\form_editDataKatalog;
-use App\Http\Controllers\form_perbaruiDataBurungInvestasi;
-use App\Http\Controllers\form_tambahDataKatalog;
 use App\Http\Controllers\PenjualanController;
+use App\Http\Controllers\form_editDataKatalog;
+use App\Http\Controllers\KatalogADMController;
+use App\Http\Controllers\form_tambahDataKatalog;
 use App\Http\Controllers\RiwayatTransaksiController;
+use App\Http\Controllers\form_perbaruiDataBurungInvestasi;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +41,9 @@ Route::post('/registerINV',[registerINV::class,'register']);
 
 Route::get('/registerPET',[registerPET::class,'view']);
 Route::post('/registerPET',[registerPET::class,'register']);
+
+Route::get('/regadm',[registerADM::class,'view_form']);
+Route::post('/regadm',[registerADM::class,'tambahkan']);
 
 Route::get('/login', function () {
     return view('login');
@@ -77,7 +86,6 @@ Route::get('/detail/investasi/{hash}',[InvestasiController::class,'detail']);
 // Investasi (peternak)
 Route::get('/katalog/investasi/pet/{email}',[InvestasiController::class,'view_katalog_pet']);
 Route::get('/katalog/investasi/pet/detail/{id}/{email}',[InvestasiController::class,'view_detail_burung_pet']);
-Route::get('/katalog/investasi/pet/detail/{id}/{email}',[InvestasiController::class,'view_detail_burung_pet']);
 Route::get('/konfirmasi/pembayaran/{burung}',[InvestasiController::class,'view_konfirmasi_pembayaran']);
 Route::get('/konfirmasi/pet/{id}/{dash}',[InvestasiController::class,'verifikasiPembayaran']);
 
@@ -87,6 +95,9 @@ Route::post('/investasis/perbarui/{nama_burung}',[form_perbaruiDataBurungInvesta
 // Penjualan (investor)
 Route::get('/jual/{email}/{id_transaksi}',[PenjualanController::class,'view_jual']);
 Route::get('/jual/sistemsale/{email}/{id_transaksi}',[PenjualanController::class,'jual_inv']);
+
+Route::get('/jual/konfirmasi/{email}/{id_transaksi}',[PenjualanController::class,'konfirmasiPenjualan']);
+Route::get('/jual/terima/{email}/{id_transaksi}',[PenjualanController::class,'terima']);
 
 // Penjualan (penjual)
 Route::get('/jualpet/{email}/{id_transaksi}',[PenjualanController::class,'form_jual_pet']);
@@ -101,6 +112,19 @@ Route::get('/investor/listburung/{email}/{id_investasi}',[RiwayatTransaksiContro
 
 // MOU
 Route::post('/mou/{dash_data}',[InvestasiController::class,'simpan_mou']);
+Route::get('/download',[InvestasiController::class,'download_mou']);
+
+// Fungsi Admin
+Route::get('/adm/investasi/{hash}',[RiwayatTransaksi::class,'set_riwayat']);
+Route::get('/adm/investasi/detail/{id_invest}/{hash}',[RiwayatTransaksi::class,'get_riwayat_detail']);
+Route::get('/adm/katalog/{hash}',[KatalogADMController::class,'view']);
+Route::get('/adm/katalog/detail/{hash}/{id_burung}',[KatalogADMController::class,'detail']);
+Route::get('/adm/investor/{hash}',[InvestorController::class,'set_data']);
+Route::get('/adm/investor/detail/{hash}/{id_investor}',[InvestorController::class,'set_data_detail']);
+Route::get('/adm/investor/detail/{hash}/{id_investor}',[InvestorController::class,'set_data_detail']);
+Route::get('/adm/investor/detail/delete/{hash}/{id_investor}',[InvestorController::class,'hapus']);
+Route::get('/adm/peternak/{hash}',[PeternakController::class,'set_data']);
+Route::get('/adm/peternak/detail/{hash}/{id_investor}',[PeternakController::class,'set_data_detail']);
 
 
 

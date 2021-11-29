@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DataAdmin;
 use App\Models\dataBurung;
 use App\Models\dataInvestasi;
 use App\Models\dataInvestor;
@@ -63,6 +64,16 @@ class DashController extends Controller
         return $data;
     }
 
+    public function get_data_penjualan($id_inv) {
+        $data = DB::table('data_investasis')
+                ->join('data_penjualan_burungs','data_penjualan_burungs.id_investasi','data_investasis.id')
+                ->select('data_penjualan_burungs.id','data_penjualan_burungs.id_investasi')
+                ->where('data_penjualan_burungs.status_penjualan','=','Menunggu konfirmasi')
+                ->where('data_investasis.id_investor','=',$id_inv)
+                ->get();
+        return $data;
+    }
+
     public function notif_jual_pet($id_pet) {
         $data=DB::table('data_investasis')
             ->join('data_burungs','data_burungs.id','data_investasis.id_burungs')
@@ -94,7 +105,7 @@ class DashController extends Controller
             $notif=$this->notif_permintaan($data_pet['id']);
             $data_bur = dataBurung::where('id_peternak',$data_pet['id'])->where('status','tersedia')->get();
             $get_data_inv = new InvestasiController;
-            $data_inv=$get_data_inv->get_data_invest($data_pet['id']);
+            $data_inv=$get_data_inv->get_data_invest_pet($data_pet['id']);
             $data_banyakInvestasi=$this->get_jumlah_investasi($data_pet['id']);
 
             $notifjual = $this->notif_jual_pet($data_pet['id']);
@@ -111,8 +122,15 @@ class DashController extends Controller
             $nominal_invest = $this->get_nominal_transaksi($key['id']);
 
             $notifjual=$this->notif_jual($key['id']);
+            $get_data_penjualan=$this->get_data_penjualan($key['id']);
 
-            return view('dashboardINV',['dash_data' => $key,'burung' => $data_bur,'notiftagihan' => $notiftagihan,'burungINV'=>$data_inv,'nominal_invest' => $nominal_invest,'notifjual'=>$notifjual]);
+            return view('dashboardINV',['dash_data' => $key,'burung' => $data_bur,'notiftagihan' => $notiftagihan,'burungINV'=>$data_inv,'nominal_invest' => $nominal_invest,'notifjual'=>$notifjual,'notifpenjualan'=>$get_data_penjualan]);
+        }elseif ($role=='admin') {
+            $dash_data=DataAdmin::where('username',$id)->get();
+            foreach ($dash_data as $dash_data) {
+                # code...
+            }
+            return view('/dashboardADM',['name' => $dash_data['nama_admin'],'email'=>$dash_data['username']]);
         }
     }
 
@@ -124,9 +142,13 @@ class DashController extends Controller
 
         $auth_data1= dataPeternak::where('email',$login_data['email'])->get();
         $auth_data2 = dataInvestor::where('email',$login_data['email'])->get();
+        $auth_data3 = DataAdmin::where('username',$login_data['email'])->get();
         foreach ($auth_data1 as $key) {
         }
         foreach ($auth_data2 as $key2) {
+        }
+        foreach ($auth_data3 as $key3) {
+
         }
         if (isset($key)) {
             if (Hash::check($login_data['password'], $key["password"])) {
@@ -138,6 +160,13 @@ class DashController extends Controller
         }elseif (isset($key2)) {
             if (Hash::check($login_data['password'], $key2["password"])) {
                 return $this->view($key2['email'],'investor');
+            } else {
+                $req->session()->flash('loginError','Login Gagal! Periksa kembali email/password Anda');
+                return redirect('/login');
+            }
+        }elseif (isset($key3)) {
+            if (Hash::check($login_data['password'],$key3['password'])) {
+                return $this->view($key3['username'],'admin');
             } else {
                 $req->session()->flash('loginError','Login Gagal! Periksa kembali email/password Anda');
                 return redirect('/login');

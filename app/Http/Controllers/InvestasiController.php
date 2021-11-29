@@ -6,21 +6,28 @@ use DateTime;
 use Carbon\Carbon;
 use App\Models\dataBurung;
 use App\Models\dataInvestor;
+use App\Models\dataPeternak;
 use Illuminate\Http\Request;
 use App\Models\dataInvestasi;
 use App\Models\dataDetailInvestor;
-use App\Models\dataPeternak;
-use App\Models\dataRiwayatTransaksiBulanan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use App\Models\dataRiwayatTransaksiBulanan;
 
 class InvestasiController extends Controller
 {
 
     protected function mou($id,$nama_burung) {
-        $old_data = dataInvestor::find($id)->get();
-        foreach ($old_data as $data) {
-        }
-        return view('form_mou',['data'=>$data, 'burung' =>$nama_burung]);
+        // $old_data = dataInvestor::find($id)->get();
+        // foreach ($old_data as $data) {
+        // }
+        // dd($data->id);
+        return view('form_mou',['investor'=>$id, 'burung' =>$nama_burung]);
+    }
+
+    public function download_mou() {
+        $file="./perjanjian/PERJANJIAN KERJASAMA INVESTASI.docx";
+        return Storage::download("PERJANJIAN KERJASAMA INVESTASI.docx");
     }
 
     protected function simpan_mou($nama_burung,Request $req) {
@@ -34,9 +41,16 @@ class InvestasiController extends Controller
                 'kodepos'       => "required|numeric",
                 'ttl'           => "required|max:255",
                 'rekening'      => "required|numeric",
+                'ktp'           => "required|image|file|max:1024",
+                'pasfoto'       => "required|image|file|max:1024",
+                'persetujuan'   => "required|image|file|max:1024",
             ]
         );
-        // ddd($data_mou);
+
+        $data_mou['ktp']=$req->file('ktp')->store('scan-satu');
+        $data_mou['pasfoto']=$req->file('pasfoto')->store('scan-dua');
+        $data_mou['persetujuan']=$req->file('persetujuan')->store('scan-tiga');
+
         $data_investor=dataInvestor::find($data_mou['id_investor']);
         dataDetailInvestor::create($data_mou);
         return $this->view($nama_burung,$data_investor->email);
@@ -63,10 +77,10 @@ class InvestasiController extends Controller
     }
 
     public function view_tagihan($hash,$id_burung) {
-
         $investor=DB::table('data_detail_investors')
                 ->join('data_investors','data_detail_investors.id_investor','=','data_investors.id')
                 ->select('data_investors.nama','data_investors.nik','data_detail_investors.alamat','data_investors.phone')
+                ->where('data_investors.email','=',$hash)
                 ->get();
 
         foreach ($investor as $investor) {
@@ -123,7 +137,7 @@ class InvestasiController extends Controller
     }
 
     protected function investasi($id_burung,$emailinvestor) {
-        $investor = dataInvestor::where('email',$emailinvestor)->get('id');
+        $investor = dataInvestor::where('email',$emailinvestor)->get();
         foreach ($investor as $investor) {
         }
         $current = Carbon::now();
@@ -153,9 +167,10 @@ class InvestasiController extends Controller
     public function get_data_invest($id_investor) {
         $data_inv  = DB::table('data_investasis')
                     ->join('data_burungs','data_investasis.id_burungs','data_burungs.id')
-                    ->select('data_investasis.id','data_investasis.tgl_investasi','data_investasis.tgl_jatuhTempo','data_burungs.nama_burung','data_burungs.jenis_kelamin','data_investasis.id_burungs')
-                    ->where('data_investasis.id_investor','=',$id_investor)
+                    ->select('data_investasis.id','data_investasis.tgl_investasi','data_investasis.tgl_jatuhTempo','data_burungs.nama_burung','data_burungs.jenis_kelamin','data_investasis.id_burungs','data_burungs.foto_burung')
+                    // ->where('data_investasis.id_investor','=',$id_investor)
                     ->where('data_investasis.status_transaksi','=','Berjalan')
+                    ->where('data_investasis.id_investor','=',$id_investor)
                     ->get();
         if (count($data_inv)) {
             return $data_inv;
@@ -180,7 +195,8 @@ class InvestasiController extends Controller
         $katalogInvestasi = DB::table('data_riwayat_transaksi_bulanans')
                             ->join('data_investasis','data_riwayat_transaksi_bulanans.id_investasi','data_investasis.id')
                             ->join('data_burungs','data_investasis.id_burungs','data_burungs.id')
-                            ->select('data_investasis.id','data_investasis.id_burungs','data_investasis.tgl_investasi','data_investasis.tgl_jatuhTempo','data_burungs.nama_burung','data_burungs.jenis_kelamin','data_riwayat_transaksi_bulanans.riwayat_transaksi','data_investasis.status_transaksi')
+                            ->select('data_investasis.id','data_investasis.id_burungs','data_investasis.tgl_investasi','data_investasis.tgl_jatuhTempo','data_burungs.nama_burung','data_burungs.jenis_kelamin','data_riwayat_transaksi_bulanans.riwayat_transaksi','data_investasis.status_transaksi','data_burungs.foto_burung')
+                            ->where('data_investasis.id_investor','=',$key['id'])
                             ->get();
 
         return view('katalogInvestasi',['dash_data'=>$key,'katalog'=>$katalogInvestasi]);
@@ -191,7 +207,16 @@ class InvestasiController extends Controller
 
         $tanggal = $current->toDateString();
 
-        $query=dataRiwayatTransaksiBulanan::find($id);
+        $transaksi = DB::table('data_investasis')
+                    ->join('data_riwayat_transaksi_bulanans','data_riwayat_transaksi_bulanans.id_investasi','data_investasis.id')
+                    ->select('data_riwayat_transaksi_bulanans.id')
+                    ->where('data_investasis.id','=',$id)
+                    ->get();
+        foreach ($transaksi as $transaksi) {
+            # code...
+        }
+
+        $query=dataRiwayatTransaksiBulanan::find($transaksi->id);
         $query->tgl_transaksi=$tanggal;
         $query->riwayat_transaksi='Menunggu verifikasi';
         $query->save();
@@ -207,7 +232,7 @@ class InvestasiController extends Controller
                 ->join('data_burungs','data_investasis.id_burungs','data_burungs.id')
                 ->join('data_peternaks','data_burungs.id_peternak','data_peternaks.id')
                 ->join('data_investors','data_investasis.id_investor','data_investors.id')
-                ->select('data_burungs.nama_burung','data_burungs.berat','data_burungs.jenis_kelamin','data_burungs.tanggal_menetas','data_burungs.riwayat_medis','data_riwayat_transaksi_bulanans.riwayat_transaksi','data_peternaks.ownername','data_investors.email','data_investasis.id_burungs','data_burungs.biaya_tambahan','data_burungs.jadwal_perawatan','data_burungs.updated_at')
+                ->select('data_burungs.nama_burung','data_burungs.berat','data_burungs.jenis_kelamin','data_burungs.tanggal_menetas','data_burungs.riwayat_medis','data_riwayat_transaksi_bulanans.riwayat_transaksi','data_peternaks.ownername','data_investors.email','data_investasis.id_burungs','data_burungs.biaya_tambahan','data_burungs.jadwal_perawatan','data_burungs.updated_at','data_burungs.foto_burung')
                 ->where('data_investasis.id_burungs','=',$id)
                 ->get();
         foreach ($detail as $detail) {
@@ -230,7 +255,7 @@ class InvestasiController extends Controller
         $katalogInvestasi = DB::table('data_riwayat_transaksi_bulanans')
                             ->join('data_investasis','data_riwayat_transaksi_bulanans.id_investasi','data_investasis.id')
                             ->join('data_burungs','data_investasis.id_burungs','data_burungs.id')
-                            ->select('data_investasis.id','data_investasis.tgl_investasi','data_investasis.tgl_jatuhTempo','data_burungs.nama_burung','data_burungs.jenis_kelamin','data_riwayat_transaksi_bulanans.riwayat_transaksi')
+                            ->select('data_investasis.id','data_investasis.tgl_investasi','data_investasis.tgl_jatuhTempo','data_burungs.nama_burung','data_burungs.jenis_kelamin','data_riwayat_transaksi_bulanans.riwayat_transaksi','data_burungs.foto_burung')
                             ->where('data_burungs.id_peternak','=',$dash_data['id'])
                             ->where('data_investasis.status_transaksi','=','Berjalan')
                             ->get();
@@ -248,14 +273,18 @@ class InvestasiController extends Controller
         foreach ($dash_data as $peternak) {
             # code...
         }
-        $burung=dataBurung::where('id',$id)->get();
+        $idBurung = dataInvestasi::where('id',$id)->get();
+        foreach ($idBurung as $idBurung) {
+            # code...
+        }
+        $burung=dataBurung::where('id',$idBurung['id_burungs'])->get();
         foreach ($burung as $burung) {
             # code...
         }
         $data_transaksi = DB::table('data_riwayat_transaksi_bulanans')
                             ->join('data_investasis','data_riwayat_transaksi_bulanans.id_investasi','data_investasis.id')
                             ->select('data_riwayat_transaksi_bulanans.riwayat_transaksi','data_investasis.id_investor')
-                            ->where('data_investasis.id_burungs','=',$id)
+                            ->where('data_investasis.id_burungs','=',$burung['id'])
                             ->get();
         foreach ($data_transaksi as $data_transaksi) {
             # code...
@@ -299,7 +328,6 @@ class InvestasiController extends Controller
                 ->select('data_burungs.biaya_tambahan','data_burungs.id')
                 ->where('data_riwayat_transaksi_bulanans.id','=',$id)
                 ->get();
-
         foreach ($data as $data) {
             # code...
         }
@@ -321,7 +349,17 @@ class InvestasiController extends Controller
         $data2->tgl_jatuhTempo = $jatuhTempo;
         $data2->save();
 
-        $idPeternak = dataBurung::where('id',$data->id)->get();
+        $idRiwayatTransaksi = dataRiwayatTransaksiBulanan::where('id',$data->id)->get();
+        foreach ($idRiwayatTransaksi as $idRiwayatTransaksi) {
+            # code...
+        }
+
+        $idInvestasi = dataInvestasi::where('id',$idRiwayatTransaksi['id_investasi'])->get();
+        foreach ($idInvestasi as $idInvestasi) {
+            # code...
+        }
+
+        $idPeternak = dataBurung::where('id',$idInvestasi['id_burungs'])->get();
         foreach ($idPeternak as $idPeternak) {
             # code...
         }
@@ -339,8 +377,8 @@ class InvestasiController extends Controller
     public function get_data_invest_pet($id_investor) {
         $data_inv  = DB::table('data_investasis')
                     ->join('data_burungs','data_investasis.id_burungs','data_burungs.id')
-                    ->select('data_investasis.id','data_investasis.tgl_investasi','data_investasis.tgl_jatuhTempo','data_burungs.nama_burung','data_burungs.jenis_kelamin','data_investasis.id_burungs')
-                    ->where('data_investasis.id_peternak','=',$id_investor)
+                    ->select('data_investasis.id','data_investasis.tgl_investasi','data_investasis.tgl_jatuhTempo','data_burungs.nama_burung','data_burungs.jenis_kelamin','data_investasis.id_burungs','data_burungs.foto_burung')
+                    ->where('data_burungs.id_peternak','=',$id_investor)
                     ->get();
         if (count($data_inv)) {
             return $data_inv;

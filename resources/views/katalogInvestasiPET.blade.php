@@ -9,7 +9,7 @@
                 @foreach ($katalog as $ktlg)
                         <div class="col text-start p-0">
                             <a href="/katalog/investasi/pet/detail/{{ $ktlg->id }}/{{ $dash_data['email'] }}" style="text-decoration: none; color: black"><div class="card mb-3 shadow" style="width: 330px;">
-                                <img src="{{ URL::asset("Images/dummy-pict.jpg") }}" class="card-img-top img-thumbnail mx-auto mt-1" alt="Foto Burung" style="width: 310px">
+                                <img src="{{ asset("storage/".$ktlg->foto_burung) }}" class="card-img-top img-thumbnail mx-auto mt-1" alt="Foto Burung" style="width: 310px">
                                 <div class="card-body">
                                     @if ($ktlg->riwayat_transaksi == 'Belum dibayar')
                                         <span class="badge bg-danger">Menunggu Pembayaran</span>

@@ -13,7 +13,7 @@
                 <div class="row row-cols-5 mt-3">
                     @foreach ($burung as $item)
                         <a href="/katalog/detailBurung/{{ $dash_data['email'] }}" style="text-decoration: none; color: black"><div class="card me-auto mb-3 shadow" style="width: 330px;">
-                            <img src="{{ URL::asset("Images/dummy-pict.jpg") }}" class="card-img-top img-thumbnail mx-auto mt-1" alt="Foto Burung" style="width: 310px">
+                            <img src="{{ asset("storage/".$item->foto_burung) }}" class="card-img-top img-thumbnail mx-auto mt-1" alt="Foto Burung" style="width: 310px">
                             <div class="card-body">
                                 <h5 class="card-title" style="margin-top: -15px">{{ $item->nama_burung }}</h5>
                                 <div class="container">

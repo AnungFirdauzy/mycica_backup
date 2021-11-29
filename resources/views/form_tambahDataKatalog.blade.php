@@ -13,7 +13,7 @@
         <div class="container">
             <div class="container p-5" style="width: 50%; border: 1px solid black">
                 <h2><strong>Tambah Data Burung</strong></h2>
-                <form action="/katalog/tambah/{{ $data_pet['id'] }}" method="POST">
+                <form action="/katalog/tambah/{{ $data_pet['id'] }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label for="nama_burung">Nama Burung</label>
@@ -69,8 +69,13 @@
                     <input type="hidden" name="jadwal_perawatan" value="Belum ditambahkan">
 
                     <div class="mb-3">
-                        <label for="formFile" class="form-label">Tambahkan Gambar</label>
-                        <input class="form-control" type="file" id="formFile">
+                        <label for="foto_burung" class="form-label">Tambahkan Gambar</label>
+                        <input class="form-control @error('foto_burung') is-invalid @enderror" type="file" id="foto_burung" name="foto_burung">
+                        @error('foto_burung')
+                        <div class="invalid-feedback">
+                                {{ $message }}
+                        </div>
+                    @enderror
                     </div>
 
                     <div class="mb-3">

@@ -59,7 +59,7 @@
                                 @foreach ($burungINV as $burungINV)
                                     <a href="/katalog/investasi/pet/detail/{{ $burungINV->id }}/{{ $dash_data['email'] }}" style="text-decoration: none;color:white">
                                         <div class="row mb-3 shadow">
-                                            <div class="col-3"><img src="{{ URL::asset("Images/dummy-pict.jpg") }}" alt="" style="width: 100px"></div>
+                                            <div class="col-3"><img src="{{ asset("storage/".$burungINV->foto_burung) }}" alt="" style="max-width: 100px"></div>
                                             <div class="col text-start"><h4 class="h4">{{ $burungINV->nama_burung }}</h4></div>
                                             <div class="col text-end"><h4 class="h4">{{ $burungINV->tgl_jatuhTempo }}</h4></div>
                                         </div>
@@ -85,7 +85,7 @@
                         <div class="card-body overflow-auto">
                             @foreach ($burung as $burung)
                                 <a href="/katalog/profil/{{ $burung['nama_burung'] }}" style="text-decoration: none;color:white"><div class="row mb-3 shadow">
-                                    <div class="col-3"><img src="{{ URL::asset("Images/dummy-pict.jpg") }}" alt="" style="width: 100px"></div>
+                                    <div class="col-3"><img src="{{ asset("storage/".$burung['foto_burung']) }}" alt="" style="width: 100px"></div>
                                     <div class="col text-start"><h4 class="h4">{{ $burung['nama_burung'] }}</h4></div>
                                     <div class="col text-end"><h4 class="h4">{{ $burung['tanggal_max_investasi'] }}</h4></div>
                                 </div></a>

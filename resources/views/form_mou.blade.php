@@ -13,10 +13,10 @@
     <div class="container py-3">
         <div class="container p-5 shadow-lg" style="width: 60%">
             <h2><strong>Formulir Data Lengkap</strong></h2>
-            <form class="text-dark" action="/mou/{{ $burung }}" method="POST">
+            <form class="text-dark" action="/mou/{{ $burung }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
-                <input type="hidden" name="id_investor" value="{{ $data['id'] }}" required>
+                <input type="hidden" name="id_investor" value="{{ $investor }}" required>
 
                 <div class="row">
                     <div class="col">
@@ -116,20 +116,41 @@
                 <div class="container-fluid ms-0 mb-4 text-light">
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Scan KTP</label>
-                        <input class="form-control form-control" id="formFile" name="ktp" type="file">
+                        <input class="form-control form-control @error('ktp') is-invalid @enderror" id="formFile" name="ktp" type="file">
+                        @error('ktp')
+                        
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+
+                        @enderror
                     </div>
 
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Pas Foto 3x4</label>
-                        <input class="form-control form-control" id="formFile" name="foto" type="file">
+                        <input class="form-control form-control @error('pasfoto') is-invalid @enderror" id="formFile" name="pasfoto" type="file">
+                        @error('pasfoto')
+                        
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+
+                        @enderror
                     </div>
 
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Surat Persetujuan</label>
-                        <input class="form-control form-control" id="formFile" name="persetujuan" type="file">
+                        <input class="form-control form-control @error('persetujuan') is-invalid @enderror" id="formFile" name="persetujuan" type="file">
+                        @error('persetujuan')
+                        
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+
+                        @enderror
                     </div>
 
-                    <button type="button" class="btn btn-outline-primary btn-sm">Download Surat Pernyataan</button>
+                    <a href="/download" class="btn btn-outline-primary btn-sm">Download Surat Pernyataan</a>
                 </div>
                 
                 
